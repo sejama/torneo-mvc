@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TorneoController!{% endblock %}
+
+{% block body %}
+<div>
+    {{ component('Alert', {message: 'Hello Twig Components!'}) }}
+    <h1>Nuevo Torneo</h1>
+
+    {{ include('torneo/textrich.html.twig') }}
+</div>
+<script>
+    const toolbarOptions = [
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            ['bold', 'italic', 'underline'], //'strike'],        // toggled buttons
+            //['blockquote', 'code-block'],
+            //['link', 'image', 'video', 'formula'],
+
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+            //[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            //[{ 'direction': 'rtl' }],                         // text direction
+
+            //[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            //[{ 'header': [1, 2, false] }],
+
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            //[{ 'font': [] }],
+            [{ 'align': [] }],
+
+            ['clean']                                         // remove formatting button
+        ];
+    const quill = new Quill('#editorQuill', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+        
+    });
+</script>
+{% endblock %}

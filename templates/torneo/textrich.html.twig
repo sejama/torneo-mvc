@@ -1,0 +1,47 @@
+<div id="div" class="container mt-4 mb-4">
+    <div class="row justify-content-md-center">
+        <div class="col-md-12 col-lg-8">
+            <div id="editorQuill">
+                <h1>H1</h1>
+                <h2>H2</h2>
+                <p>Normal <strong>B (Negrita)</strong><em> I (Cursiva)</em> <u>U (Subrrayado)</u></p>
+                <ol>
+                    <li data-list="ordered"><span class="ql-ui" contenteditable="false"></span>Item numerico</li>
+                    <li data-list="bullet"><span class="ql-ui" contenteditable="false"></span>Item</li>
+                    <li data-list="unchecked"><span class="ql-ui" contenteditable="false"></span>Check</li>
+                </ol>
+                <p class="ql-indent-3">Sangria Izquierda y Derecha</p>
+                <p class="ql-indent-3"><span style="color: rgb(230, 0, 0);">Color Rojo</span></p>
+                <p><span style="background-color: rgb(255, 194, 102);">Resaltado</span></p>
+                <p class="ql-align-center">Alineado</p>
+                <p>Limpiar Formato Seleccionado</p>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const btn = document.querySelector('button');
+    btn.addEventListener('click', () => {
+        const text = document.querySelector('.ql-editor').innerHTML;
+        console.log(text);
+
+        const div1 = document.querySelector('#div');
+        const div11 = document.createElement('div');
+        div11.className = 'row justify-content-md-center';
+        const div111 = document.createElement('div');
+        div111.className = 'col-md-12 col-lg-8';
+        const div1111 = document.createElement('div');
+        div1111.innerHTML = text;
+
+        div111.appendChild(div1111);
+        div11.appendChild(div111);
+        div1.appendChild(div11);
+    });
+
+    
+
+</script>

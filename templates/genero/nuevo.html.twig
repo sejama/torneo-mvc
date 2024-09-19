@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SGT - Nuevo Genero{% endblock %}
+
+{% block body %}
+<form class=" needs-validation" novalidate method="post" action="{{ path('app_genero_nuevo') }}">
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Genero" required>
+        <div id="nombreFeedback" class="invalid-feedback">
+            Nombre no puede estar vacío
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+  
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
+{% endblock %}

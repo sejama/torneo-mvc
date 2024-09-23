@@ -16,6 +16,11 @@ class GeneroRepository extends ServiceEntityRepository
         parent::__construct($registry, Genero::class);
     }
 
+    public function findAll(): array
+    {
+        return $this->findBy([], ['nombre' => 'ASC']);
+    }
+
     //    /**
     //     * @return Genero[] Returns an array of Genero objects
     //     */

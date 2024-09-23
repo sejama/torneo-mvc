@@ -1,9 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TorneoController!{% endblock %}
+{% block title %}SGT - Torneos{% endblock %}
 
 {% block body %}
-<div>
-    <h1>Torneos</h1>
-</div>
+    <h1>Menú de Torneos</h1>
+
+    <a href="{{ path('app_torneo_nuevo') }}" class=" btn btn-primary">Nuevo Torneo</a>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 50px;">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col" style="width: 250px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set i = 1 %}
+                {% for torneo in torneos %}
+                <tr>
+
+                    <th scope="row">{{ i }}{% set i = i + 1 %}</th>
+                    <td>{{ torneo.nombre }}</td>
+                    <td >
+                        <a href="{{ path('app_torneo_detalle', {'ruta': torneo.ruta }) }}" class="btn btn-primary">Detalle</a>
+                        <a href="{{ path('app_torneo_editar', {'id': torneo.id }) }}" class="btn btn-warning">Editar</a>
+                        <a href="{{ path('app_torneo_eliminar', {'id': torneo.id }) }}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

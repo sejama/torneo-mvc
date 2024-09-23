@@ -1,41 +1,172 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TorneoController!{% endblock %}
+{% block title %}SGT - Nuevo Torneo{% endblock %}
 
 {% block body %}
 <div>
-    {{ component('Alert', {message: 'Hello Twig Components!'}) }}
-    <h1>Nuevo Torneo</h1>
-
-    {{ include('torneo/textrich.html.twig') }}
-</div>
-<script>
-    const toolbarOptions = [
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            ['bold', 'italic', 'underline'], //'strike'],        // toggled buttons
-            //['blockquote', 'code-block'],
-            //['link', 'image', 'video', 'formula'],
-
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-            //[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-            //[{ 'direction': 'rtl' }],                         // text direction
-
-            //[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-            //[{ 'header': [1, 2, false] }],
-
-            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-            //[{ 'font': [] }],
-            [{ 'align': [] }],
-
-            ['clean']                                         // remove formatting button
-        ];
-    const quill = new Quill('#editorQuill', {
-        modules: {
-            toolbar: toolbarOptions
-        },
-        theme: 'snow'
+    <h1>Torneo - Nuevo</h1>
+    <form class=" needs-validation" novalidate method="post" action="{{ path('app_torneo_nuevo') }}">
+        <div class="row g-3 mb-3 mt-3">
+            <div class="col">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Torneo" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Nombre de Torneo no puede estar vacío
+                </div>
+            </div>
+            <div class="col">
+                <label for="basic-url" class="form-label">Ruta</label>
+                <div class="input-group">
+                  <span class="input-group-text" id="basic-addon3">https://example.com/</span>
+                  <input type="text" class="form-control" id="basic-url"  name="ruta" aria-describedby="basic-addon3 basic-addon4" maxlength="32" required>
+                  <div id="nombreFeedback" class="invalid-feedback">
+                      Ruta de Torneo no puede estar vacío
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3 mt-3 mb-3">
+            <div class="col">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input type="textarea" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción Torneo">
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Nombre de Torneo no puede estar vacío
+                </div>
+            </div>
+        </div>
         
-    });
-</script>
+        <div class="row g-3 mb-3 mt-3">
+            <div class="col">
+                <label for="fechaInicioTorneo" class="form-label">Fecha de Inicio Torneo</label>
+                <input type="date" class="form-control" id="fechaInicioTorneo" name="fechaInicioTorneo" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Fecha de Inicio de Torneo no puede estar vacío
+                </div>
+            </div>
+            <div class="col">
+                <label for="horaInicioTorneo" class="form-label">Hora de Inicio Torneo</label>
+                <input type="time" class="form-control" id="horaInicioTorneo" name="horaInicioTorneo" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    hora de Inicio de Torneo no puede estar vacío
+                </div>
+            </div>
+            <div class="col">
+                <label for="fechaFinTorneo" class="form-label">Fecha de Fin Torneo</label>
+                <input type="date" class="form-control" id="fechaFinTorneo" name="fechaFinTorneo" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Fecha de Fin de Torneo no puede estar vacío
+                </div>
+            </div>
+            <div class="col">
+                <label for="horaFinTorneo" class="form-label">Hora de Fin Torneo</label>
+                <input type="time" class="form-control" id="horaFinTorneo" name="horaFinTorneo" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    hora de Fin de Torneo no puede estar vacío
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3 mt-3">
+            <div class="col">
+                <label for="fechaInicioInscripción" class="form-label">Fecha de Inicio Inscripción</label>
+                <input type="date" class="form-control" id="fechaInicioInscripción" name="fechaInicioInscripción" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Fecha de Inicio de Inscripción no puede estar vacío
+                </div>
+            </div>
+            <div class="col">
+                <label for="horaInicioInscripción" class="form-label">Hora de Inicio Inscripción</label>
+                <input type="time" class="form-control" id="horaInicioInscripción" name="horaInicioInscripción" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    hora de Inicio de Inscripción no puede estar vacío
+                </div>
+            </div>
+            <div class="col">
+                <label for="fechaInicioInscripcion" class="form-label">Fecha de Fin Inscripción</label>
+                <input type="date" class="form-control" id="fechaInicioInscripcion" name="fechaInicioInscripcion" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Fecha de Inicio de Inscripción no puede estar vacío
+                </div>
+            </div>
+            <div class="col">
+                <label for="horaInicioInscripcion" class="form-label">Hora de Fin Inscripción</label>
+                <input type="time" class="form-control" id="horaInicioInscripcion" name="horaInicioInscripcion" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    hora de Inicio de Inscripción no puede estar vacío
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3 mb-3">
+            <div class="col">
+                <p>Reglamento</p>
+                <input type="textarea" name="reglamento" id="reglamento" hidden>
+                {{ include('torneo/textrich.html.twig') }}
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Reglamento del Torneo no puede estar vacío
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3 mb-3">
+            <div class="col">
+                <label for="genero" class="form-label">Genero</label>
+                <select id="genero" class="form-select" name="generoId" required>
+                    <option selected disabled value="">Seleccionar</option>
+                    {% for genero in generos %}
+                    <option value={{ genero.id }}>{{ genero.nombre }}</option>
+                    {% endfor %}
+                </select>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Nombre de Torneo no puede estar vacío
+                </div>
+            </div>
+            <div class="col">
+                <label for="categoria" class="form-label">Categoría</label>
+                <input type="text" class="form-control" id="categoria" name="categoria" placeholder="Nombre de categoría" required>
+                <div id="nombreFeedback" class="invalid-feedback">
+                    Nombre de Torneo no puede estar vacío
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mb-3 mt-3">
+            <button type="submit" class="btn btn-success">Enviar</button>
+            <a href="{{ path('app_torneo') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict'
+      
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+      
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+          form.addEventListener('submit', event => {
+
+            const reglamento = document.getElementById('reglamento');
+            const quill = document.getElementsByClassName('ql-editor')[0];
+            console.log(quill.innerHTML);
+            reglamento.value = quill.innerHTML;
+            
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+
+            }
+      
+            form.classList.add('was-validated')
+          }, false)
+        })
+
+      })()
+    </script>
+    
+    
+    
+    {{ component('Alert', {message: 'Hello Twig Components!'}) }}
+</div>
 {% endblock %}

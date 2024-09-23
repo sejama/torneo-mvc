@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoriaRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Categoria
 {
     #[ORM\Id]
@@ -95,9 +96,10 @@ class Categoria
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTimeImmutable('now');
 
         return $this;
     }
@@ -107,9 +109,11 @@ class Categoria
         return $this->updateAt;
     }
 
-    public function setUpdateAt(\DateTimeImmutable $updateAt): static
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdateAt(): static
     {
-        $this->updateAt = $updateAt;
+        $this->updateAt = new \DateTimeImmutable('now');
 
         return $this;
     }

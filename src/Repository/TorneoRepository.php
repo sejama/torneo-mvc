@@ -16,6 +16,16 @@ class TorneoRepository extends ServiceEntityRepository
         parent::__construct($registry, Torneo::class);
     }
 
+    public function findAll(): array
+    {
+        return $this->findBy([], ['id' => 'ASC']);
+    }
+
+    public function findOneByRuta(string $ruta): ?Torneo
+    {
+        return $this->findOneBy(['ruta' => $ruta]);
+    }
+
     //    /**
     //     * @return Torneo[] Returns an array of Torneo objects
     //     */

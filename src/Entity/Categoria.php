@@ -23,7 +23,7 @@ class Categoria
     #[ORM\JoinColumn(nullable: false)]
     private ?Genero $genero = null;
 
-    #[ORM\Column(length: 32)]
+    #[ORM\Column(length: 32, unique: true)]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255, nullable: true)]

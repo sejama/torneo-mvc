@@ -40,6 +40,7 @@ class TorneoController extends AbstractController
     {
         $generos = $entityManager->getRepository(Genero::class)->findAll();
         if ($request->isMethod('POST')) {
+
             $torneo = new Torneo();
             $torneo->setNombre($request->request->get('nombre'));
             $torneo->setRuta($request->request->get('ruta'));
@@ -52,13 +53,18 @@ class TorneoController extends AbstractController
             
             $entityManager->persist($torneo);
             
-            $categoria = new Categoria();
+            $entityManager->flush();
 
-            $categoria->setTorneo($torneo);
-            $categoria->setGenero($entityManager->getRepository(Genero::class)->find((int)$request->request->get('generoId')));
-            $categoria->setNombre($request->request->get('categoria'));
+            $categorias = $request->request->all('categorias');
 
-            $entityManager->persist($categoria);
+            foreach ($categorias as $categoriaInput) {
+                $categoria = new Categoria();
+                $categoria->setTorneo($torneo);
+                $categoria->setGenero($entityManager->getRepository(Genero::class)->find((int)$categoriaInput['generoId']));
+                $categoria->setNombre($categoriaInput['categoriaNombre']);
+                $entityManager->persist($categoria);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_torneo', [], Response::HTTP_SEE_OTHER);

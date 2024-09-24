@@ -6,7 +6,7 @@
 <div>
     <h1>Torneo - Nuevo</h1>
     <form class=" needs-validation" novalidate method="post" action="{{ path('app_torneo_nuevo') }}">
-        <div class="row g-3 mb-3 mt-3">
+        <div class="row g-2 mb-2 mt-2">
             <div class="col">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Torneo" required>
@@ -17,25 +17,25 @@
             <div class="col">
                 <label for="basic-url" class="form-label">Ruta</label>
                 <div class="input-group">
-                  <span class="input-group-text" id="basic-addon3">https://example.com/</span>
-                  <input type="text" class="form-control" id="basic-url"  name="ruta" aria-describedby="basic-addon3 basic-addon4" maxlength="32" required>
-                  <div id="nombreFeedback" class="invalid-feedback">
-                      Ruta de Torneo no puede estar vacío
-                  </div>
+                    <span class="input-group-text" id="basic-addon3">https://example.com/</span>
+                    <input type="text" class="form-control" id="basic-url"  name="ruta" aria-describedby="basic-addon3 basic-addon4" maxlength="32" required>
+                    <div id="nombreFeedback" class="invalid-feedback">
+                        Ruta de Torneo no puede estar vacío
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row g-3 mt-3 mb-3">
+        <div class="row g-1 mb-2 mt-2">
             <div class="col">
                 <label for="descripcion" class="form-label">Descripción</label>
                 <input type="textarea" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción Torneo">
                 <div id="nombreFeedback" class="invalid-feedback">
-                    Nombre de Torneo no puede estar vacío
+                    Descripción de Torneo no puede estar vacío
                 </div>
             </div>
         </div>
         
-        <div class="row g-3 mb-3 mt-3">
+        <div class="row g-4 mb-2 mt-2">
             <div class="col">
                 <label for="fechaInicioTorneo" class="form-label">Fecha de Inicio Torneo</label>
                 <input type="date" class="form-control" id="fechaInicioTorneo" name="fechaInicioTorneo" required>
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div class="row g-3 mb-3 mt-3">
+        <div class="row g-4 mb-2 mt-2">
             <div class="col">
                 <label for="fechaInicioInscripción" class="form-label">Fecha de Inicio Inscripción</label>
                 <input type="date" class="form-control" id="fechaInicioInscripción" name="fechaInicioInscripción" required>
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div class="row g-3 mt-3 mb-3">
+        <div class="row g-3 mt-2 mb-2">
             <div class="col">
                 <p>Reglamento</p>
                 <input type="textarea" name="reglamento" id="reglamento" hidden>
@@ -108,65 +108,120 @@
             </div>
         </div>
 
-        <div class="row g-3 mt-3 mb-3">
+        <div id="divCategorias">
+        <div class="row g-3 mt-2 mb-2">
             <div class="col">
                 <label for="genero" class="form-label">Genero</label>
-                <select id="genero" class="form-select" name="generoId" required>
+                <select id="genero" class="form-select" name='categorias[0][generoId]' required>
                     <option selected disabled value="">Seleccionar</option>
                     {% for genero in generos %}
                     <option value={{ genero.id }}>{{ genero.nombre }}</option>
                     {% endfor %}
                 </select>
                 <div id="nombreFeedback" class="invalid-feedback">
-                    Nombre de Torneo no puede estar vacío
+                    Debe seleccionar un Genero
                 </div>
             </div>
             <div class="col">
                 <label for="categoria" class="form-label">Categoría</label>
-                <input type="text" class="form-control" id="categoria" name="categoria" placeholder="Nombre de categoría" required>
+                <input type="text" class="form-control" id="categoria" name='categorias[0][categoriaNombre]' placeholder="Nombre de categoría" required>
                 <div id="nombreFeedback" class="invalid-feedback">
-                    Nombre de Torneo no puede estar vacío
+                    Nombre de Categoría no puede estar vacío
                 </div>
             </div>
         </div>
-
-        <div class="col-12 mb-3 mt-3">
-            <button type="submit" class="btn btn-success">Enviar</button>
-            <a href="{{ path('app_torneo') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+        <div class="row g-3 mt-2 mb-2">
+            <button id="btnAgregarGenCat" type="button" class="btn btn-primary">Agregar Categoría</button>
+        </div>
+        <div class="row g-3 mt-2 mb-2">
+            <div class="col">
+                <button type="submit" class="btn btn-success">Enviar</button>
+                <a href="{{ path('app_torneo') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+            <div class="col">
+            </div>
         </div>
     </form>
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
     (() => {
         'use strict'
-      
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         const forms = document.querySelectorAll('.needs-validation')
-      
         // Loop over them and prevent submission
         Array.from(forms).forEach(form => {
-          form.addEventListener('submit', event => {
+            form.addEventListener('submit', event => {
 
             const reglamento = document.getElementById('reglamento');
             const quill = document.getElementsByClassName('ql-editor')[0];
-            console.log(quill.innerHTML);
+            //console.log(quill.innerHTML);
             reglamento.value = quill.innerHTML;
             
             if (!form.checkValidity()) {
-              event.preventDefault()
-              event.stopPropagation()
-
+                event.preventDefault()
+                event.stopPropagation()
             }
-      
             form.classList.add('was-validated')
-          }, false)
+            }, false)
         })
+    })()
 
-      })()
+    const btnAbtnAgregarGenCat = document.getElementById('btnAgregarGenCat')
+    let cantidad = 1;
+    btnAgregarGenCat.addEventListener('click', () => {
+        divRow = document.createElement('div')
+        divRow.classList.add('row', 'g-3', 'mt-2', 'mb-2')
+        divCol1 = document.createElement('div')
+        divCol1.classList.add('col')
+        label = document.createElement('label')
+        label.setAttribute('for', 'genero' + cantidad)
+        label.textContent = 'Genero'
+        selectGenero = document.createElement('select')
+        selectGenero.classList.add('form-select')
+        selectGenero.id = 'genero' + cantidad
+        selectGenero.name = 'categorias[' + cantidad + '][generoId]'
+        selectGenero.required = true
+        option = document.createElement('option')
+        option.value = ''
+        option.textContent = 'Seleccionar'
+        selectGenero.appendChild(option)
+        {% for genero in generos %}
+        option = document.createElement('option')
+        option.value = '{{ genero.id }}'
+        option.textContent = '{{ genero.nombre }}'
+        selectGenero.appendChild(option)
+        {% endfor %}
+        divValidationSelect = document.createElement('div')
+        divValidationSelect.id = 'nombreFeedback'
+        divValidationSelect.classList.add('invalid-feedback')
+        divValidationSelect.textContent = 'Debe seleccionar un Genero'
+        divCol1.appendChild(label)
+        divCol1.appendChild(selectGenero)
+        divCol1.appendChild(divValidationSelect)
+        divRow.appendChild(divCol1)
+        divCol2 = document.createElement('div')
+        divCol2.classList.add('col')
+        label = document.createElement('label')
+        label.setAttribute('for', 'categoria' + cantidad)
+        label.textContent = 'Categoria'
+        inputCategoria = document.createElement('input')
+        inputCategoria.classList.add('form-control')
+        inputCategoria.id = 'categoria' + cantidad
+        inputCategoria.name = 'categorias[' + cantidad + '][categoriaNombre]'
+        inputCategoria.placeholder = 'Nombre de categoría'
+        inputCategoria.required = true
+        divValidationInput = document.createElement('div')
+        divValidationInput.id = 'nombreFeedback'
+        divValidationInput.classList.add('invalid-feedback')
+        divValidationInput.textContent = 'Nombre de Categoría no puede estar vacío'
+        divCol2.appendChild(label)
+        divCol2.appendChild(inputCategoria)
+        divCol2.appendChild(divValidationInput)
+        divRow.appendChild(divCol2)
+        document.getElementById('divCategorias').appendChild(divRow)
+        cantidad++
+    })
     </script>
-    
-    
-    
-    {{ component('Alert', {message: 'Hello Twig Components!'}) }}
 </div>
 {% endblock %}

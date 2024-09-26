@@ -53,6 +53,10 @@ class Torneo
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $reglamento = null;
 
+    #[ORM\ManyToOne(inversedBy: 'torneos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Usuario $usuario = null;
+
     public function __construct()
     {
         $this->categorias = new ArrayCollection();
@@ -212,6 +216,18 @@ class Torneo
     public function setReglamento(?string $reglamento): static
     {
         $this->reglamento = $reglamento;
+
+        return $this;
+    }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): static
+    {
+        $this->usuario = $usuario;
 
         return $this;
     }

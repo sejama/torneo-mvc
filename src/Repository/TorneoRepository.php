@@ -21,6 +21,11 @@ class TorneoRepository extends ServiceEntityRepository
         return $this->findBy([], ['id' => 'ASC']);
     }
 
+    public function findAllByUsuario(int $usuarioId): array
+    {
+        return $this->findBy(['usuario' => $usuarioId], ['id' => 'ASC']);
+    }
+
     public function findOneByRuta(string $ruta): ?Torneo
     {
         return $this->findOneBy(['ruta' => $ruta]);

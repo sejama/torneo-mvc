@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    /**
+     * @var Collection<int, Torneo>
+     */
+    #[ORM\OneToMany(targetEntity: Torneo::class, mappedBy: 'usuario')]
+    private Collection $torneos;
+
+    public function __construct()
+    {
+        $this->torneos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +147,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Torneo>
+     */
+    public function getTorneos(): Collection
+    {
+        return $this->torneos;
+    }
+
+    public function addTorneo(Torneo $torneo): static
+    {
+        if (!$this->torneos->contains($torneo)) {
+            $this->torneos->add($torneo);
+            $torneo->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTorneo(Torneo $torneo): static
+    {
+        if ($this->torneos->removeElement($torneo)) {
+            // set the owning side to null (unless already changed)
+            if ($torneo->getUsuario() === $this) {
+                $torneo->setUsuario(null);
+            }
+        }
 
         return $this;
     }

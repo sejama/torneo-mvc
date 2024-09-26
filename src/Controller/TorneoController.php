@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Categoria;
 use App\Entity\Genero;
 use App\Entity\Torneo;
-use App\Repository\GeneroRepository;
 use App\Repository\TorneoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +18,7 @@ class TorneoController extends AbstractController
     #[Route('/', name: 'app_torneo')]
     public function index(TorneoRepository $torneoRepository): Response
     {
-        $torneos = $torneoRepository->findAll();
+        $torneos = $torneoRepository->findAllByUsuario($this->getUser()->getId());
         return $this->render('torneo/index.html.twig', [
             'torneos' => $torneos,
         ]);
@@ -37,7 +36,7 @@ class TorneoController extends AbstractController
 
     #[Route('/nuevo', name: 'app_torneo_nuevo', methods: ['GET', 'POST'])]
     public function nuevo(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    {   
         $generos = $entityManager->getRepository(Genero::class)->findAll();
         if ($request->isMethod('POST')) {
 
@@ -49,7 +48,7 @@ class TorneoController extends AbstractController
             $torneo->setFechaFinTorneo(new \DateTimeImmutable($request->request->get('fechaFinTorneo'). ' ' .$request->request->get('horaFinTorneo')));
             $torneo->setFechaInicioInscripcion(new \DateTimeImmutable($request->request->get('fechaInicioInscripcion'). ' ' .$request->request->get('horaInicioInscripcion')));
             $torneo->setFechaFinInscripcion(new \DateTimeImmutable($request->request->get('fechaFinInscripcion'). ' ' .$request->request->get('horaFinInscripcion')));
-            $torneo->setReglamento($request->request->get('reglamento'));
+            $torneo->setUsuario($this->getUser());
             
             $entityManager->persist($torneo);
             

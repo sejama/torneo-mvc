@@ -97,39 +97,30 @@
             </div>
         </div>
 
-        <div class="row g-3 mt-2 mb-2">
-            <div class="col">
-                <p>Reglamento</p>
-                <input type="textarea" name="reglamento" id="reglamento" hidden>
-                {{ include('torneo/textrich.html.twig') }}
-                <div id="nombreFeedback" class="invalid-feedback">
-                    Reglamento del Torneo no puede estar vacío
-                </div>
-            </div>
-        </div>
+        
 
         <div id="divCategorias">
-        <div class="row g-3 mt-2 mb-2">
-            <div class="col">
-                <label for="genero" class="form-label">Genero</label>
-                <select id="genero" class="form-select" name='categorias[0][generoId]' required>
-                    <option selected disabled value="">Seleccionar</option>
-                    {% for genero in generos %}
-                    <option value={{ genero.id }}>{{ genero.nombre }}</option>
-                    {% endfor %}
-                </select>
-                <div id="nombreFeedback" class="invalid-feedback">
-                    Debe seleccionar un Genero
+            <div class="row g-3 mt-2 mb-2">
+                <div class="col">
+                    <label for="genero" class="form-label">Genero</label>
+                    <select id="genero" class="form-select" name='categorias[0][generoId]' required>
+                        <option selected disabled value="">Seleccionar</option>
+                        {% for genero in generos %}
+                        <option value={{ genero.id }}>{{ genero.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="nombreFeedback" class="invalid-feedback">
+                        Debe seleccionar un Genero
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="categoria" class="form-label">Categoría</label>
+                    <input type="text" class="form-control" id="categoria" name='categorias[0][categoriaNombre]' placeholder="Nombre de categoría" required>
+                    <div id="nombreFeedback" class="invalid-feedback">
+                        Nombre de Categoría no puede estar vacío
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <label for="categoria" class="form-label">Categoría</label>
-                <input type="text" class="form-control" id="categoria" name='categorias[0][categoriaNombre]' placeholder="Nombre de categoría" required>
-                <div id="nombreFeedback" class="invalid-feedback">
-                    Nombre de Categoría no puede estar vacío
-                </div>
-            </div>
-        </div>
         </div>
         <div class="row g-3 mt-2 mb-2">
             <button id="btnAgregarGenCat" type="button" class="btn btn-primary">Agregar Categoría</button>

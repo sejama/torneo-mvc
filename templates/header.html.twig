@@ -7,13 +7,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_main') }}">Inicio</a>
+            <a class="nav-link" aria-current="page" href="{{ path('app_main') }}">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_genero')}}">Genero</a>
+            <a class="nav-link" aria-current="page" href="{{ path('app_genero')}}">Genero</a>
           </li>
           <li class="nav-item"></li>
-            <a class="nav-link" href="{{ path('app_torneo')}}">Torneo</a>
+            <a class="nav-link" aria-current="page" href="{{ path('app_torneo')}}">Torneo</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,15 +28,20 @@
           </li>
         </ul>
         <ul class="navbar-nav justify-content-end">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_login')}}">Iniciar Sesión</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_logout')}}">Cerrar Sesión</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_registrar')}}">Registrar</a>
-          </li>
+          {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{{ path('app_logout') }}">Cerrar Sesión</a>
+                </li>
+                {% if app.user and  app.user.roles[0] == 'ROLE_ADMIN' %}
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{{ path('app_registrar') }}">Registrar</a>
+                </li>
+                {% endif %}
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{{ path('app_login') }}">Iniciar Sesión</a>
+                </li>
+                {% endif %}
         </ul>
       </div>
     </div>

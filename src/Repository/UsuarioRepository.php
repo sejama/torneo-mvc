@@ -19,6 +19,12 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
         parent::__construct($registry, Usuario::class);
     }
 
+    public function guardar( Usuario $usuario): void
+    {
+        $this->getEntityManager()->persist($usuario);
+        $this->getEntityManager()->flush();
+    }
+
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */

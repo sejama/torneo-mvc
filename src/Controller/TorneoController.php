@@ -39,34 +39,41 @@ class TorneoController extends AbstractController
     {   
         $generos = $entityManager->getRepository(Genero::class)->findAll();
         if ($request->isMethod('POST')) {
+            try{
+                $torneo = new Torneo();
+                $torneo->setNombre($request->request->get('nombre'));
+                $torneo->setRuta($request->request->get('ruta'));
+                $torneo->setDescripcion($request->request->get('descripcion'));
+                $torneo->setFechaInicioTorneo(new \DateTimeImmutable($request->request->get('fechaInicioTorneo'). ' ' .$request->request->get('horaInicioTorneo')));
+                $torneo->setFechaFinTorneo(new \DateTimeImmutable($request->request->get('fechaFinTorneo'). ' ' .$request->request->get('horaFinTorneo')));
+                $torneo->setFechaInicioInscripcion(new \DateTimeImmutable($request->request->get('fechaInicioInscripcion'). ' ' .$request->request->get('horaInicioInscripcion')));
+                $torneo->setFechaFinInscripcion(new \DateTimeImmutable($request->request->get('fechaFinInscripcion'). ' ' .$request->request->get('horaFinInscripcion')));
+                $torneo->setUsuario($this->getUser());
 
-            $torneo = new Torneo();
-            $torneo->setNombre($request->request->get('nombre'));
-            $torneo->setRuta($request->request->get('ruta'));
-            $torneo->setDescripcion($request->request->get('descripcion'));
-            $torneo->setFechaInicioTorneo(new \DateTimeImmutable($request->request->get('fechaInicioTorneo'). ' ' .$request->request->get('horaInicioTorneo')));
-            $torneo->setFechaFinTorneo(new \DateTimeImmutable($request->request->get('fechaFinTorneo'). ' ' .$request->request->get('horaFinTorneo')));
-            $torneo->setFechaInicioInscripcion(new \DateTimeImmutable($request->request->get('fechaInicioInscripcion'). ' ' .$request->request->get('horaInicioInscripcion')));
-            $torneo->setFechaFinInscripcion(new \DateTimeImmutable($request->request->get('fechaFinInscripcion'). ' ' .$request->request->get('horaFinInscripcion')));
-            $torneo->setUsuario($this->getUser());
-            
-            $entityManager->persist($torneo);
-            
-            $entityManager->flush();
-
-            $categorias = $request->request->all('categorias');
-
-            foreach ($categorias as $categoriaInput) {
-                $categoria = new Categoria();
-                $categoria->setTorneo($torneo);
-                $categoria->setGenero($entityManager->getRepository(Genero::class)->find((int)$categoriaInput['generoId']));
-                $categoria->setNombre($categoriaInput['categoriaNombre']);
-                $entityManager->persist($categoria);
+                $entityManager->persist($torneo);
+                
+                $categorias = $request->request->all('categorias');
+                foreach ($categorias as $categoriaInput) {
+                    $categoria = new Categoria();
+                    $categoria->setTorneo($torneo);
+                    $categoria->setGenero($entityManager->getRepository(Genero::class)->find((int)$categoriaInput['generoId']));
+                    $categoria->setNombre($categoriaInput['categoriaNombre']);
+                    $entityManager->persist($categoria);
+                }
+                $entityManager->flush();
+                
+                return $this->redirectToRoute('app_torneo', [], Response::HTTP_SEE_OTHER);
+            }catch(\Exception $e){
+                return $this->render('torneo/nuevo.html.twig', [
+                    'error' => $e->getMessage()
+                ]);
             }
+            
+            
 
-            $entityManager->flush();
 
-            return $this->redirectToRoute('app_torneo', [], Response::HTTP_SEE_OTHER);
+
+
         }
         return $this->render('torneo/nuevo.html.twig', [
             'generos' => $generos,

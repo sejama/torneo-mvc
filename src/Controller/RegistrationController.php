@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Usuario;
-use App\Form\RegistrationFormType;
+use App\Exception\AppException;
+use App\Manager\RegistrarManager;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +17,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Throwable;
 
 class RegistrationController extends AbstractController
 {
@@ -23,29 +26,40 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/registrar', name: 'app_registrar', methods: ['GET', 'POST'])]
-    public function registrar(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function registrar(
+        Request $request, 
+        RegistrarManager $registrarManager, 
+        LoggerInterface $logger
+        ): Response
     {
         if ($request->isMethod('POST')) {
-            $user = new Usuario();
-            $user->setUsername($request->request->get('username'));
-            $user->setRoles(['ROLE_USER']);
-            $user->setPassword($userPasswordHasher->hashPassword($user, $request->request->get('password')));
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // generate a signed url and email it to the user
-            /*$this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('sejama3@gmail.com', 'SGT - Ssitema Gestión Torneo'))
-                    ->to((string) $user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );*/
-
-            // do anything else you need here, like send an email
-
-            return $this->redirectToRoute('app_login');
+            try{
+                $registrarManager->registrarUsuario(
+                    $request->request->get('username'),
+                    $request->request->get('password'),
+                    //$request->request->get('email'),
+                );
+                    
+                // generate a signed url and email it to the user
+                /*$this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('sejama3@gmail.com', 'SGT - Ssitema Gestión Torneo'))
+                        ->to((string) $user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );*/
+    
+                // do anything else you need here, like send an email
+                $this->addFlash('success', 'Usuario registrado correctamente');
+                return $this->redirectToRoute('app_login');
+            }catch(AppException $ae){
+                $logger->error($ae->getMessage());
+                $this->addFlash('error', $ae->getMessage());
+            }
+            catch(Throwable $e){
+                $logger->error($e->getMessage());
+                $this->addFlash('error', "Ha ocurrido un error inesperado. Por favor, intente nuevamente.");
+            }
         }
 
         return $this->render('registration/registrar.html.twig');

@@ -18,7 +18,7 @@ class TorneoController extends AbstractController
     #[Route('/', name: 'app_torneo')]
     public function index(TorneoRepository $torneoRepository): Response
     {
-        $torneos = $torneoRepository->findAllByUsuario($this->getUser()->getId());
+        $this->getUser() ? $torneos = $torneoRepository->findAllByUsuario($this->getUser()->getId()) : $torneos = [];
         return $this->render('torneo/index.html.twig', [
             'torneos' => $torneos,
         ]);
